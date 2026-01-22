@@ -16,6 +16,24 @@ import GeradeLininenSchneidenSVG from "./GeradeLininenSchneidenSVG";
 import KurvenSchneidenSVG from "./KurvenSchneidenSVG";
 import FormenAusschneidenSVG from "./FormenAusschneidenSVG";
 
+// IDs that have image files in public/worksheets/
+export const worksheetImages: Set<number> = new Set([
+  8,  // Mehr oder weniger (Premium)
+  9,  // Buchstabe A - hat jetzt auch Bild
+  10, // Buchstabe M - hat jetzt auch Bild
+  11, // Buchstabe O - hat jetzt auch Bild
+  12, // Anlaut-Bilder (Premium)
+  15, // Symmetrie-Schmetterlinge (Premium)
+  16, // Fehler finden
+  19, // Reihenfolge ergänzen (Premium)
+  20, // Frühlings-Ausmalbild
+  21, // Sommer-Ausmalbild
+  22, // Herbst-Ausmalbild
+  23, // Winter-Ausmalbild
+  24, // Tiere zuordnen
+  28, // Puzzle zusammensetzen (Premium)
+]);
+
 // Map worksheet IDs to their SVG components
 export const worksheetComponents: Record<number, React.ComponentType> = {
   // Schwungübungen

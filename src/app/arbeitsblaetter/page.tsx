@@ -14,7 +14,8 @@ import {
 } from "@/data/worksheets";
 import FilterButton from "@/components/FilterButton";
 import FilterSection from "@/components/FilterSection";
-import { worksheetComponents } from "@/components/worksheets";
+import { worksheetComponents, worksheetImages } from "@/components/worksheets";
+import Image from "next/image";
 
 export default function Arbeitsblaetter() {
   // Filter states
@@ -293,6 +294,17 @@ function WorksheetPreview({
                 <button className="mt-4 bg-gradient-to-r from-amber-400 to-orange-400 text-white font-bold px-6 py-3 rounded-xl hover:shadow-lg transition-all">
                   🔓 Premium freischalten
                 </button>
+              </div>
+            ) : worksheetImages.has(worksheet.id) ? (
+              <div className="w-full">
+                <Image
+                  src={`/worksheets/ID${worksheet.id}.png`}
+                  alt={worksheet.title}
+                  width={800}
+                  height={600}
+                  className="w-full h-auto rounded-lg"
+                  priority
+                />
               </div>
             ) : worksheetComponents[worksheet.id] ? (
               <div className="w-full">
