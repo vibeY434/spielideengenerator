@@ -110,70 +110,63 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* ==================== PRINT STYLES ==================== */
+
+/* Hide print-area on screen - it's only for printing */
+.print-area {
+  display: none;
+}
+
 @media print {
-  /* Hide everything by default */
-  body * {
-    visibility: hidden;
-  }
-
-  /* Show only the printable area */
-  .print-area,
-  .print-area * {
-    visibility: visible;
-  }
-
-  /* Position the print area to fill page */
-  .print-area {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: auto;
-    padding: 0 !important;
-    margin: 0 !important;
-    background: white !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-  }
-
-  /* Hide non-printable elements */
+  /* Hide everything that's not for printing */
+  body > *:not(.print-area),
   .no-print {
     display: none !important;
     visibility: hidden !important;
   }
 
-  /* Reset backgrounds for printing */
-  body {
+  /* Reset page */
+  html, body {
     background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  /* Ensure images print correctly and fill page */
+  /* Show and position the print area */
+  .print-area {
+    display: block !important;
+    visibility: visible !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+  }
+
+  /* Images fill the page */
   .print-area img {
-    max-width: 100%;
-    width: 100%;
-    height: auto;
-    page-break-inside: avoid;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
   }
 
-  /* SVG print optimization - fill page */
+  /* SVGs fill the page */
   .print-area svg {
-    max-width: 100%;
-    width: 100%;
-    height: auto;
-    page-break-inside: avoid;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
   }
 
-  /* A4 page setup */
+  /* A4 page setup - single page */
   @page {
-    size: A4;
-    margin: 8mm;
-  }
-
-  /* Prevent page breaks in worksheets */
-  .print-area > * {
-    page-break-inside: avoid;
+    size: A4 portrait;
+    margin: 5mm;
   }
 }

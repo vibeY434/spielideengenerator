@@ -242,117 +242,132 @@ function WorksheetPreview({
     window.print();
   };
 
-  return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 no-print">
-      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-auto shadow-2xl">
-        {/* Header - hidden when printing */}
-        <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between rounded-t-3xl no-print">
-          <div className="flex items-center gap-3">
-            <span className="text-3xl">{worksheet.emoji}</span>
-            <div>
-              <h2 className="text-xl font-bold text-gray-800">{worksheet.title}</h2>
-              <p className="text-sm text-gray-500">{categoryLabels[worksheet.category].label}</p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl"
-          >
-            ✕
+  // Render the worksheet content
+  const renderWorksheetContent = () => {
+    if (worksheet.isPremium) {
+      return (
+        <div className="text-center py-12">
+          <div className="text-6xl mb-4">🔒</div>
+          <p className="text-gray-600 mb-2">Premium-Inhalt</p>
+          <p className="text-sm text-gray-500">
+            Dieses Arbeitsblatt ist Teil des Premium-Pakets.
+          </p>
+          <button className="mt-4 bg-gradient-to-r from-amber-400 to-orange-400 text-white font-bold px-6 py-3 rounded-xl hover:shadow-lg transition-all">
+            🔓 Premium freischalten
           </button>
         </div>
+      );
+    }
 
-        {/* Content */}
-        <div className="p-6">
-          {/* Description - hidden when printing */}
-          <p className="text-gray-700 mb-6 no-print">{worksheet.description}</p>
+    if (worksheetImages.has(worksheet.id)) {
+      return (
+        <Image
+          src={`/worksheets/ID${worksheet.id}.png`}
+          alt={worksheet.title}
+          width={800}
+          height={600}
+          className="w-full h-auto"
+          priority
+        />
+      );
+    }
 
-          {/* Tags - hidden when printing */}
-          <div className="flex flex-wrap gap-2 mb-6 no-print">
-            <span className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm">
-              {difficultyLabels[worksheet.difficulty].emoji} {difficultyLabels[worksheet.difficulty].label}
-            </span>
-            <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-              {ageLabels[worksheet.age].emoji} {ageLabels[worksheet.age].label}
-            </span>
-            {worksheet.isPremium && (
-              <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-white px-3 py-1 rounded-full text-sm">
-                👑 Premium
-              </span>
-            )}
-          </div>
+    if (worksheetComponents[worksheet.id]) {
+      const WorksheetSVG = worksheetComponents[worksheet.id];
+      return <WorksheetSVG />;
+    }
 
-          {/* Preview Area - THIS IS WHAT GETS PRINTED */}
-          <div className="print-area bg-gray-50 rounded-2xl p-4 mb-6 min-h-[300px] border-2 border-dashed border-gray-200">
-            {worksheet.isPremium ? (
-              <div className="text-center py-12 no-print">
-                <div className="text-6xl mb-4">🔒</div>
-                <p className="text-gray-600 mb-2">Premium-Inhalt</p>
-                <p className="text-sm text-gray-500">
-                  Dieses Arbeitsblatt ist Teil des Premium-Pakets.
-                </p>
-                <button className="mt-4 bg-gradient-to-r from-amber-400 to-orange-400 text-white font-bold px-6 py-3 rounded-xl hover:shadow-lg transition-all">
-                  🔓 Premium freischalten
-                </button>
-              </div>
-            ) : worksheetImages.has(worksheet.id) ? (
-              <div className="w-full">
-                <Image
-                  src={`/worksheets/ID${worksheet.id}.png`}
-                  alt={worksheet.title}
-                  width={800}
-                  height={600}
-                  className="w-full h-auto rounded-lg print:rounded-none"
-                  priority
-                />
-              </div>
-            ) : worksheetComponents[worksheet.id] ? (
-              <div className="w-full">
-                {(() => {
-                  const WorksheetSVG = worksheetComponents[worksheet.id];
-                  return <WorksheetSVG />;
-                })()}
-              </div>
-            ) : (
-              <div className="text-center py-12 no-print">
-                <div className="text-6xl mb-4">{worksheet.emoji}</div>
-                <p className="text-gray-500 text-sm">
-                  Arbeitsblatt in Vorbereitung
-                </p>
-                <p className="text-xs text-gray-400 mt-2">
-                  Dieses Arbeitsblatt wird bald verfügbar sein!
-                </p>
-              </div>
-            )}
-          </div>
+    return (
+      <div className="text-center py-12">
+        <div className="text-6xl mb-4">{worksheet.emoji}</div>
+        <p className="text-gray-500 text-sm">Arbeitsblatt in Vorbereitung</p>
+        <p className="text-xs text-gray-400 mt-2">
+          Dieses Arbeitsblatt wird bald verfügbar sein!
+        </p>
+      </div>
+    );
+  };
 
-          {/* Actions - hidden when printing */}
-          <div className="flex flex-wrap gap-3 justify-center no-print">
-            {!worksheet.isPremium && (
-              <>
-                <button
-                  onClick={handlePrint}
-                  className="bg-teal-500 hover:bg-teal-600 text-white font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2"
-                >
-                  🖨️ Drucken
-                </button>
-                <button
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2 opacity-50 cursor-not-allowed"
-                  title="Kommt bald!"
-                >
-                  📥 PDF herunterladen
-                </button>
-              </>
-            )}
+  return (
+    <>
+      {/* Print-only content - rendered outside the modal */}
+      <div className="print-area">
+        {renderWorksheetContent()}
+      </div>
+
+      {/* Modal - hidden when printing */}
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 no-print">
+        <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-auto shadow-2xl">
+          {/* Header */}
+          <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between rounded-t-3xl">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">{worksheet.emoji}</span>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">{worksheet.title}</h2>
+                <p className="text-sm text-gray-500">{categoryLabels[worksheet.category].label}</p>
+              </div>
+            </div>
             <button
               onClick={onClose}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-3 rounded-xl transition-all"
+              className="text-gray-400 hover:text-gray-600 text-2xl"
             >
-              Schließen
+              ✕
             </button>
+          </div>
+
+          {/* Content */}
+          <div className="p-6">
+            {/* Description */}
+            <p className="text-gray-700 mb-6">{worksheet.description}</p>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <span className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm">
+                {difficultyLabels[worksheet.difficulty].emoji} {difficultyLabels[worksheet.difficulty].label}
+              </span>
+              <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                {ageLabels[worksheet.age].emoji} {ageLabels[worksheet.age].label}
+              </span>
+              {worksheet.isPremium && (
+                <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-white px-3 py-1 rounded-full text-sm">
+                  👑 Premium
+                </span>
+              )}
+            </div>
+
+            {/* Preview Area */}
+            <div className="bg-gray-50 rounded-2xl p-4 mb-6 min-h-[300px] border-2 border-dashed border-gray-200">
+              {renderWorksheetContent()}
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-wrap gap-3 justify-center">
+              {!worksheet.isPremium && (worksheetImages.has(worksheet.id) || worksheetComponents[worksheet.id]) && (
+                <>
+                  <button
+                    onClick={handlePrint}
+                    className="bg-teal-500 hover:bg-teal-600 text-white font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2"
+                  >
+                    🖨️ Drucken
+                  </button>
+                  <button
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-3 rounded-xl transition-all flex items-center gap-2 opacity-50 cursor-not-allowed"
+                    title="Kommt bald!"
+                  >
+                    📥 PDF herunterladen
+                  </button>
+                </>
+              )}
+              <button
+                onClick={onClose}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-3 rounded-xl transition-all"
+              >
+                Schließen
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
