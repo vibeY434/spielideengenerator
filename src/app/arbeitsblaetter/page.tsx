@@ -14,6 +14,7 @@ import {
 } from "@/data/worksheets";
 import FilterButton from "@/components/FilterButton";
 import FilterSection from "@/components/FilterSection";
+import { worksheetComponents } from "@/components/worksheets";
 
 export default function Arbeitsblaetter() {
   // Filter states
@@ -281,9 +282,9 @@ function WorksheetPreview({
           </div>
 
           {/* Preview Area */}
-          <div className="bg-gray-50 rounded-2xl p-8 mb-6 min-h-[300px] flex items-center justify-center border-2 border-dashed border-gray-200">
+          <div className="bg-gray-50 rounded-2xl p-4 mb-6 min-h-[300px] border-2 border-dashed border-gray-200 print:border-none print:p-0 print:m-0">
             {worksheet.isPremium ? (
-              <div className="text-center">
+              <div className="text-center py-12">
                 <div className="text-6xl mb-4">🔒</div>
                 <p className="text-gray-600 mb-2">Premium-Inhalt</p>
                 <p className="text-sm text-gray-500">
@@ -293,14 +294,21 @@ function WorksheetPreview({
                   🔓 Premium freischalten
                 </button>
               </div>
+            ) : worksheetComponents[worksheet.id] ? (
+              <div className="w-full">
+                {(() => {
+                  const WorksheetSVG = worksheetComponents[worksheet.id];
+                  return <WorksheetSVG />;
+                })()}
+              </div>
             ) : (
-              <div className="text-center">
+              <div className="text-center py-12">
                 <div className="text-6xl mb-4">{worksheet.emoji}</div>
                 <p className="text-gray-500 text-sm">
-                  Vorschau wird geladen...
+                  Arbeitsblatt in Vorbereitung
                 </p>
                 <p className="text-xs text-gray-400 mt-2">
-                  (Hier erscheint später das Arbeitsblatt)
+                  Dieses Arbeitsblatt wird bald verfügbar sein!
                 </p>
               </div>
             )}

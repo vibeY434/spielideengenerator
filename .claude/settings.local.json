@@ -11,7 +11,10 @@
       "Bash(powershell:*)",
       "Bash(powershell.exe -NoProfile -Command \"Set-Location ''E:\\\\Business\\\\spielideengenerator''; npm install 2>&1\")",
       "Bash(git push:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\n+7 Kartenspiele & Arbeitsblätter-Bereich\n\nKartenspiele \\(IDs 101-107\\):\n- Farben-Mau-Mau, Karten-Memory, Hohe Karte gewinnt\n- Karten-Angeln, Farben-Schnappen, Karten-Turm, Schwarze Dame\n\nArbeitsblätter \\(/arbeitsblaetter\\):\n- 28 Arbeitsblätter in 7 Kategorien\n- Filter nach Kategorie, Schwierigkeit, Alter\n- Premium-Vorbereitung für spätere Monetarisierung\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nSVG-Arbeitsblätter & Bild-KI Prompts\n\nNeue SVG-Komponenten für 10 Arbeitsblätter:\n- Schwungübungen: Wellenlinien, Zickzack, Spiralen, Schleifen\n- Zahlen: 1-5, 6-10, Mengen zählen\n- Formen: Formen erkennen, Muster fortsetzen\n- Konzentration: Labyrinth\n\nBild-KI Prompts \\(BILD_KI_PROMPTS.md\\):\n- Corporate Identity Vorgaben\n- Prompts für alle 28 Arbeitsblätter\n- Midjourney/DALL-E/Stable Diffusion Tipps\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }
