@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import {
   games,
   Activity,
@@ -99,6 +100,12 @@ export default function Home() {
           <p className="text-xl text-gray-600">
             Finde das perfekte Spiel für deine Gruppe!
           </p>
+          <Link
+            href="/arbeitsblaetter"
+            className="inline-block mt-4 text-teal-600 hover:text-teal-700 font-semibold transition-colors"
+          >
+            📝 Arbeitsblätter für Vorschulkinder →
+          </Link>
         </header>
 
         {/* Filters */}
