@@ -243,10 +243,10 @@ function WorksheetPreview({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 no-print">
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-auto shadow-2xl">
-        {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between rounded-t-3xl">
+        {/* Header - hidden when printing */}
+        <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between rounded-t-3xl no-print">
           <div className="flex items-center gap-3">
             <span className="text-3xl">{worksheet.emoji}</span>
             <div>
@@ -264,11 +264,11 @@ function WorksheetPreview({
 
         {/* Content */}
         <div className="p-6">
-          {/* Description */}
-          <p className="text-gray-700 mb-6">{worksheet.description}</p>
+          {/* Description - hidden when printing */}
+          <p className="text-gray-700 mb-6 no-print">{worksheet.description}</p>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-6">
+          {/* Tags - hidden when printing */}
+          <div className="flex flex-wrap gap-2 mb-6 no-print">
             <span className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm">
               {difficultyLabels[worksheet.difficulty].emoji} {difficultyLabels[worksheet.difficulty].label}
             </span>
@@ -282,10 +282,10 @@ function WorksheetPreview({
             )}
           </div>
 
-          {/* Preview Area */}
-          <div className="bg-gray-50 rounded-2xl p-4 mb-6 min-h-[300px] border-2 border-dashed border-gray-200 print:border-none print:p-0 print:m-0">
+          {/* Preview Area - THIS IS WHAT GETS PRINTED */}
+          <div className="print-area bg-gray-50 rounded-2xl p-4 mb-6 min-h-[300px] border-2 border-dashed border-gray-200">
             {worksheet.isPremium ? (
-              <div className="text-center py-12">
+              <div className="text-center py-12 no-print">
                 <div className="text-6xl mb-4">🔒</div>
                 <p className="text-gray-600 mb-2">Premium-Inhalt</p>
                 <p className="text-sm text-gray-500">
@@ -302,7 +302,7 @@ function WorksheetPreview({
                   alt={worksheet.title}
                   width={800}
                   height={600}
-                  className="w-full h-auto rounded-lg"
+                  className="w-full h-auto rounded-lg print:rounded-none"
                   priority
                 />
               </div>
@@ -314,7 +314,7 @@ function WorksheetPreview({
                 })()}
               </div>
             ) : (
-              <div className="text-center py-12">
+              <div className="text-center py-12 no-print">
                 <div className="text-6xl mb-4">{worksheet.emoji}</div>
                 <p className="text-gray-500 text-sm">
                   Arbeitsblatt in Vorbereitung
@@ -326,8 +326,8 @@ function WorksheetPreview({
             )}
           </div>
 
-          {/* Actions */}
-          <div className="flex flex-wrap gap-3 justify-center">
+          {/* Actions - hidden when printing */}
+          <div className="flex flex-wrap gap-3 justify-center no-print">
             {!worksheet.isPremium && (
               <>
                 <button

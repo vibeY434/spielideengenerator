@@ -108,3 +108,72 @@ input[type="range"]::-moz-range-thumb {
 .animate-bounce-slow {
   animation: bounce 2s ease-in-out infinite;
 }
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+  /* Hide everything by default */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only the printable area */
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  /* Position the print area to fill page */
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Hide non-printable elements */
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Reset backgrounds for printing */
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ensure images print correctly and fill page */
+  .print-area img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+
+  /* SVG print optimization - fill page */
+  .print-area svg {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+  }
+
+  /* A4 page setup */
+  @page {
+    size: A4;
+    margin: 8mm;
+  }
+
+  /* Prevent page breaks in worksheets */
+  .print-area > * {
+    page-break-inside: avoid;
+  }
+}
