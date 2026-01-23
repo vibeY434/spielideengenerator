@@ -43,10 +43,10 @@ export default function Impressum() {
             <p className="text-gray-700 leading-relaxed">
               E-Mail:{" "}
               <a
-                href="mailto:info@spielgenerator.de"
+                href="mailto:spielgenerator-info@spielgenerator.de"
                 className="text-teal-600 hover:text-teal-700 underline"
               >
-                info@spielgenerator.de
+                spielgenerator-info@spielgenerator.de
               </a>
             </p>
           </section>

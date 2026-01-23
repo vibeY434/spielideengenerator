@@ -40,10 +40,10 @@ export default function Datenschutz() {
               55122 Mainz<br />
               E-Mail:{" "}
               <a
-                href="mailto:info@spielgenerator.de"
+                href="mailto:spielgenerator-info@spielgenerator.de"
                 className="text-teal-600 hover:text-teal-700 underline"
               >
-                info@spielgenerator.de
+                spielgenerator-info@spielgenerator.de
               </a>
             </p>
           </section>
@@ -214,10 +214,10 @@ export default function Datenschutz() {
             <p className="text-gray-700 leading-relaxed">
               Zur Ausübung Ihrer Rechte wenden Sie sich bitte an:{" "}
               <a
-                href="mailto:info@spielgenerator.de"
+                href="mailto:spielgenerator-info@spielgenerator.de"
                 className="text-teal-600 hover:text-teal-700 underline"
               >
-                info@spielgenerator.de
+                spielgenerator-info@spielgenerator.de
               </a>
             </p>
           </section>
