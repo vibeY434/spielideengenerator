@@ -125,7 +125,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @media print {
-  /* Hide everything by default */
+  /* Basic print setup */
   html, body {
     background: white !important;
     margin: 0 !important;
@@ -136,12 +136,18 @@ input[type="range"]::-moz-range-thumb {
     print-color-adjust: exact !important;
   }
 
-  /* Hide all body children except print-area and print-content */
-  body > *:not(.print-area):not(:has(.print-content)) {
+  /* Hide footer when printing */
+  footer {
     display: none !important;
   }
 
-  /* Show print area (for Arbeitsblätter) */
+  /* Hide elements with no-print class */
+  .no-print {
+    display: none !important;
+  }
+
+  /* ===== Arbeitsblätter Print Styles ===== */
+  /* Show print area */
   .print-area {
     position: static !important;
     display: block !important;
@@ -158,43 +164,6 @@ input[type="range"]::-moz-range-thumb {
     page-break-inside: avoid !important;
   }
 
-  /* Show print content (for Spieldetailseiten) */
-  .print-content {
-    display: block !important;
-    background: white !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  /* Hide footer when printing */
-  footer {
-    display: none !important;
-  }
-
-  /* Print-friendly styles for game detail pages */
-  .print-content .bg-white\/80,
-  .print-content .bg-teal-50,
-  .print-content .bg-amber-50 {
-    background: white !important;
-    box-shadow: none !important;
-  }
-
-  .print-content .backdrop-blur-sm {
-    backdrop-filter: none !important;
-  }
-
-  .print-content .shadow-xl {
-    box-shadow: none !important;
-    border: 1px solid #e5e7eb !important;
-  }
-
-  .print-content .rounded-3xl,
-  .print-content .rounded-2xl,
-  .print-content .rounded-xl {
-    border-radius: 0 !important;
-  }
-
-  /* Images - fit on single page */
   .print-area img {
     display: block !important;
     width: auto !important;
@@ -206,7 +175,6 @@ input[type="range"]::-moz-range-thumb {
     page-break-inside: avoid !important;
   }
 
-  /* SVGs - fit on single page */
   .print-area svg {
     display: block !important;
     width: auto !important;
@@ -215,6 +183,29 @@ input[type="range"]::-moz-range-thumb {
     max-height: 277mm !important;
     margin: 0 auto !important;
     page-break-inside: avoid !important;
+  }
+
+  /* ===== Spieldetailseiten Print Styles ===== */
+  .print-content {
+    display: block !important;
+    visibility: visible !important;
+    background: white !important;
+    min-height: auto !important;
+    padding: 5mm !important;
+  }
+
+  /* Print-friendly backgrounds */
+  .print-content .bg-white\/80,
+  .print-content .bg-teal-50,
+  .print-content .bg-amber-50,
+  .print-content .backdrop-blur-sm {
+    background: white !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Remove shadows */
+  .print-content .shadow-xl {
+    box-shadow: none !important;
   }
 
   /* A4 page setup */
