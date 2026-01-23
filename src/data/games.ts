@@ -16,6 +16,31 @@ export interface Game {
   age: Age[];
   minGroupSize: number;
   maxGroupSize: number;
+  // Optional: Ausführliche Anleitung für Detailseite
+  instructions?: string[];
+  tips?: string[];
+}
+
+// Hilfsfunktion: Generiert URL-freundlichen Slug aus Titel
+export function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+// Hilfsfunktion: Findet Spiel nach Slug
+export function getGameBySlug(slug: string): Game | undefined {
+  return games.find((game) => generateSlug(game.title) === slug);
+}
+
+// Hilfsfunktion: Gibt alle Slugs zurück (für statische Generierung)
+export function getAllGameSlugs(): string[] {
+  return games.map((game) => generateSlug(game.title));
 }
 
 export const games: Game[] = [

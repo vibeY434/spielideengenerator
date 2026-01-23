@@ -1,6 +1,7 @@
 "use client";
 
-import { Game, activityLabels, locationLabels, durationLabels, ageLabels } from "@/data/games";
+import Link from "next/link";
+import { Game, activityLabels, locationLabels, durationLabels, ageLabels, generateSlug } from "@/data/games";
 
 interface GameCardProps {
   game: Game;
@@ -87,6 +88,16 @@ export default function GameCard({ game }: GameCardProps) {
             </span>
           ))}
         </div>
+      </div>
+
+      {/* Link zur Detailseite */}
+      <div className="mt-6 text-center">
+        <Link
+          href={`/spiel/${generateSlug(game.title)}`}
+          className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-700 font-semibold transition-colors"
+        >
+          📋 Zur vollständigen Anleitung →
+        </Link>
       </div>
     </div>
   );

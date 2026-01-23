@@ -1,9 +1,11 @@
 import { MetadataRoute } from "next";
+import { games, generateSlug } from "@/data/games";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://spielgenerator.de";
 
-  return [
+  // Statische Seiten
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -29,4 +31,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ];
+
+  // Dynamische Spielseiten (167 Spiele)
+  const gamePages: MetadataRoute.Sitemap = games.map((game) => ({
+    url: `${baseUrl}/spiel/${generateSlug(game.title)}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...gamePages];
 }
