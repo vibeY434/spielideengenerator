@@ -136,12 +136,12 @@ input[type="range"]::-moz-range-thumb {
     print-color-adjust: exact !important;
   }
 
-  /* Hide all body children except print-area */
-  body > *:not(.print-area) {
+  /* Hide all body children except print-area and print-content */
+  body > *:not(.print-area):not(:has(.print-content)) {
     display: none !important;
   }
 
-  /* Show print area */
+  /* Show print area (for Arbeitsblätter) */
   .print-area {
     position: static !important;
     display: block !important;
@@ -156,6 +156,42 @@ input[type="range"]::-moz-range-thumb {
     background: white !important;
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
+  }
+
+  /* Show print content (for Spieldetailseiten) */
+  .print-content {
+    display: block !important;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide footer when printing */
+  footer {
+    display: none !important;
+  }
+
+  /* Print-friendly styles for game detail pages */
+  .print-content .bg-white\/80,
+  .print-content .bg-teal-50,
+  .print-content .bg-amber-50 {
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  .print-content .backdrop-blur-sm {
+    backdrop-filter: none !important;
+  }
+
+  .print-content .shadow-xl {
+    box-shadow: none !important;
+    border: 1px solid #e5e7eb !important;
+  }
+
+  .print-content .rounded-3xl,
+  .print-content .rounded-2xl,
+  .print-content .rounded-xl {
+    border-radius: 0 !important;
   }
 
   /* Images - fit on single page */

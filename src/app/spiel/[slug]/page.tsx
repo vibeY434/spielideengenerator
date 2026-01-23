@@ -109,10 +109,10 @@ export default async function SpielDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
 
-      <main className="min-h-screen py-8 px-4">
+      <main className="min-h-screen py-8 px-4 print-content">
         <div className="max-w-3xl mx-auto">
-          {/* Breadcrumb */}
-          <nav className="mb-6 text-sm">
+          {/* Breadcrumb - nur auf Screen */}
+          <nav className="mb-6 text-sm print:hidden">
             <Link href="/" className="text-teal-600 hover:text-teal-700">
               Startseite
             </Link>
@@ -242,15 +242,15 @@ export default async function SpielDetailPage({
               </section>
             )}
 
-            {/* Drucken Button */}
-            <div className="flex justify-center mt-8">
+            {/* Drucken Button - nur auf Screen */}
+            <div className="flex justify-center mt-8 print:hidden">
               <PrintButton />
             </div>
           </div>
 
-          {/* Ähnliche Spiele */}
+          {/* Ähnliche Spiele - nur auf Screen */}
           {similarGames.length > 0 && (
-            <section className="mb-8">
+            <section className="mb-8 print:hidden">
               <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
                 🎲 Ähnliche Spiele
               </h2>
@@ -271,8 +271,8 @@ export default async function SpielDetailPage({
             </section>
           )}
 
-          {/* Zurück-Link */}
-          <div className="text-center">
+          {/* Zurück-Link - nur auf Screen */}
+          <div className="text-center print:hidden">
             <Link
               href="/"
               className="inline-block text-teal-600 hover:text-teal-700 font-semibold transition-colors"
