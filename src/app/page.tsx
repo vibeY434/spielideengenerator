@@ -218,15 +218,30 @@ export default function Home() {
           </div>
         )}
 
-        {/* Footer */}
-        <footer className="text-center mt-12 py-6 text-gray-500 text-sm">
-          <p>
-            🌟 Spielideen-Generator für Kindergärten 🌟
-          </p>
-          <p className="mt-1">
-            Keine Cookies • Keine Datensammlung • DSGVO-konform
-          </p>
-        </footer>
+        {/* SEO Text Section */}
+        <section className="mt-16 bg-white/60 backdrop-blur-sm rounded-2xl p-6 md:p-8">
+          <h2 className="text-xl font-bold text-gray-700 mb-4">
+            Spielideen für Kindergarten und Kita
+          </h2>
+          <div className="text-gray-600 text-sm leading-relaxed space-y-3">
+            <p>
+              Willkommen beim Spielgenerator – deiner kostenlosen Inspirationsquelle
+              für den Kita-Alltag. Ob Bewegungsspiele für draußen, ruhige Aktivitäten
+              für drinnen oder kreative Gruppenspiele: Hier findest du passende Ideen
+              für jede Situation.
+            </p>
+            <p>
+              Nutze die Filter, um Spielideen nach Altersgruppe, Ort, Dauer und
+              Aktivitätstyp zu finden. Alle Spiele sind praxiserprobt und speziell
+              für den Einsatz in Kindergärten, Kitas und der Tagespflege geeignet.
+            </p>
+            <p>
+              Der Spielgenerator wurde für Erzieherinnen, Erzieher und pädagogische
+              Fachkräfte entwickelt, die schnell und unkompliziert neue Anregungen
+              für ihre Arbeit suchen.
+            </p>
+          </div>
+        </section>
       </div>
     </main>
   );
