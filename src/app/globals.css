@@ -111,32 +111,40 @@ input[type="range"]::-moz-range-thumb {
 
 /* ==================== PRINT STYLES ==================== */
 
-/* Hide print-area on screen - it's only for printing */
+/* Hide print-area on screen using clip-rect (keeps it in DOM flow for printing) */
 .print-area {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media print {
-  /* Hide everything that's not for printing */
-  body > *:not(.print-area),
-  .no-print {
-    display: none !important;
-    visibility: hidden !important;
+  /* Reset everything */
+  * {
+    visibility: hidden;
   }
 
-  /* Reset page */
   html, body {
     background: white !important;
     margin: 0 !important;
     padding: 0 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  /* Show and position the print area */
-  .print-area {
-    display: block !important;
+  /* Show only print area and its contents */
+  .print-area,
+  .print-area * {
     visibility: visible !important;
+  }
+
+  .print-area {
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
@@ -144,6 +152,9 @@ input[type="range"]::-moz-range-thumb {
     height: auto !important;
     padding: 0 !important;
     margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
     background: white !important;
   }
 
@@ -151,22 +162,26 @@ input[type="range"]::-moz-range-thumb {
   .print-area img {
     display: block !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 190mm !important;
     height: auto !important;
+    max-height: 277mm !important;
     object-fit: contain !important;
+    margin: 0 auto !important;
   }
 
   /* SVGs fill the page */
   .print-area svg {
     display: block !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 190mm !important;
     height: auto !important;
+    max-height: 277mm !important;
+    margin: 0 auto !important;
   }
 
-  /* A4 page setup - single page */
+  /* A4 page setup */
   @page {
     size: A4 portrait;
-    margin: 5mm;
+    margin: 10mm;
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   worksheets,
@@ -238,12 +239,45 @@ function WorksheetPreview({
   worksheet: Worksheet;
   onClose: () => void;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   const handlePrint = () => {
     window.print();
   };
 
-  // Render the worksheet content
-  const renderWorksheetContent = () => {
+  // Render the worksheet content for printing (simpler, no premium lock)
+  const renderPrintContent = () => {
+    if (worksheet.isPremium) {
+      return null;
+    }
+
+    if (worksheetImages.has(worksheet.id)) {
+      // Use regular img tag for print (Next/Image can cause issues with printing)
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={`/worksheets/ID${worksheet.id}.png`}
+          alt={worksheet.title}
+          style={{ width: '100%', height: 'auto' }}
+        />
+      );
+    }
+
+    if (worksheetComponents[worksheet.id]) {
+      const WorksheetSVG = worksheetComponents[worksheet.id];
+      return <WorksheetSVG />;
+    }
+
+    return null;
+  };
+
+  // Render the worksheet content for preview
+  const renderPreviewContent = () => {
     if (worksheet.isPremium) {
       return (
         <div className="text-center py-12">
@@ -288,12 +322,18 @@ function WorksheetPreview({
     );
   };
 
+  // Print area rendered via portal directly to body
+  const printArea = mounted ? createPortal(
+    <div className="print-area">
+      {renderPrintContent()}
+    </div>,
+    document.body
+  ) : null;
+
   return (
     <>
-      {/* Print-only content - rendered outside the modal */}
-      <div className="print-area">
-        {renderWorksheetContent()}
-      </div>
+      {/* Print-only content - rendered via portal to body */}
+      {printArea}
 
       {/* Modal - hidden when printing */}
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 no-print">
@@ -337,7 +377,7 @@ function WorksheetPreview({
 
             {/* Preview Area */}
             <div className="bg-gray-50 rounded-2xl p-4 mb-6 min-h-[300px] border-2 border-dashed border-gray-200">
-              {renderWorksheetContent()}
+              {renderPreviewContent()}
             </div>
 
             {/* Actions */}
