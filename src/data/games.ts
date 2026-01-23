@@ -3285,3 +3285,115 @@ export const ageLabels: Record<Age, { label: string; emoji: string }> = {
   u3: { label: "Unter 3 Jahre", emoji: "👶" },
   ue3: { label: "Über 3 Jahre", emoji: "👧" },
 };
+
+// === MATERIAL-KATEGORIEN für Filter ===
+export type MaterialCategory =
+  | "ohne"
+  | "papier_stifte"
+  | "farben_pinsel"
+  | "bastelmaterial"
+  | "baelle"
+  | "musik"
+  | "outdoor"
+  | "turngeraete"
+  | "spielzeug"
+  | "haushalt"
+  | "naturmaterial";
+
+export const materialCategoryLabels: Record<MaterialCategory, { label: string; emoji: string }> = {
+  ohne: { label: "Ohne Material", emoji: "✋" },
+  papier_stifte: { label: "Papier & Stifte", emoji: "📝" },
+  farben_pinsel: { label: "Farben & Pinsel", emoji: "🎨" },
+  bastelmaterial: { label: "Bastelmaterial", emoji: "✂️" },
+  baelle: { label: "Bälle & Tücher", emoji: "⚽" },
+  musik: { label: "Musik", emoji: "🎵" },
+  outdoor: { label: "Outdoor-Spiele", emoji: "🌳" },
+  turngeraete: { label: "Turngeräte", emoji: "🤸" },
+  spielzeug: { label: "Spielzeug", emoji: "🧸" },
+  haushalt: { label: "Haushaltsmaterial", emoji: "🏠" },
+  naturmaterial: { label: "Naturmaterial", emoji: "🍂" },
+};
+
+// Mapping: Welche Schlüsselwörter gehören zu welcher Kategorie
+const materialKeywords: Record<MaterialCategory, string[]> = {
+  ohne: [],
+  papier_stifte: [
+    "papier", "stifte", "bleistift", "buntstift", "filzstift", "kreide",
+    "zettel", "karton", "pappe", "zeitungen", "zeitschriften"
+  ],
+  farben_pinsel: [
+    "farbe", "pinsel", "wasserfarbe", "fingerfarbe", "aquarell", "acryl",
+    "wachsmal", "tusche", "malkittel", "stempelkissen", "stempelfarbe"
+  ],
+  bastelmaterial: [
+    "schere", "kleber", "wolle", "perlen", "knöpfe", "federn", "glitzer",
+    "pfeifenreiniger", "wackelaugen", "filz", "moosgummi", "korken",
+    "eierkarton", "klopapierrolle", "papprolle", "bügelperlen", "steckplatte"
+  ],
+  baelle: [
+    "ball", "bälle", "tuch", "tücher", "schwungtuch", "fallschirm",
+    "luftballon", "seil", "springseile", "gummiband", "reifen", "hula"
+  ],
+  musik: [
+    "musik", "instrument", "triangel", "glockenspiel", "tamburin", "rassel",
+    "trommel", "klangstab", "xylophon"
+  ],
+  outdoor: [
+    "kreide", "straßenkreide", "wasserbomben", "gummistiefel", "sandspielzeug",
+    "schaufel", "eimer", "planschbecken", "boccia", "frisbee"
+  ],
+  turngeraete: [
+    "turnmatte", "matte", "bank", "turnbank", "rollbrett", "pedalo",
+    "balancierbrett", "trampolin", "hüpfball", "kriechtunnel", "balancier",
+    "pylonen", "hütchen", "staffelstab"
+  ],
+  spielzeug: [
+    "baustein", "duplo", "lego", "puzzle", "magnetbaustein", "holzeisenbahn",
+    "spielfigur", "kugelbahn", "murmelbahn", "handpuppe", "würfel",
+    "karten", "skat", "memory", "spielteppich", "knetmasse", "knete"
+  ],
+  haushalt: [
+    "dose", "becher", "löffel", "teller", "korb", "wäscheklammer",
+    "socken", "karton", "schuhkarton", "plastikflasche", "küchen", "topf",
+    "sieb", "schwamm", "strohhalm"
+  ],
+  naturmaterial: [
+    "natur", "blatt", "blätter", "stein", "steine", "stock", "stöck",
+    "kastanie", "eichel", "muschel", "sand", "erde", "blume", "gras"
+  ],
+};
+
+// Funktion: Ermittelt die Material-Kategorien eines Spiels
+export function getGameMaterialCategories(game: Game): MaterialCategory[] {
+  // Spiele ohne Material
+  if (game.materials.length === 0) {
+    return ["ohne"];
+  }
+
+  const materialsLower = game.materials.map(m => m.toLowerCase()).join(" ");
+  const categories: Set<MaterialCategory> = new Set();
+
+  // Prüfe jede Kategorie
+  for (const [category, keywords] of Object.entries(materialKeywords)) {
+    if (category === "ohne") continue;
+
+    for (const keyword of keywords) {
+      if (materialsLower.includes(keyword)) {
+        categories.add(category as MaterialCategory);
+        break;
+      }
+    }
+  }
+
+  // Wenn keine Kategorie gefunden, als "haushalt" einordnen (Allgemeines)
+  if (categories.size === 0) {
+    categories.add("haushalt");
+  }
+
+  return Array.from(categories);
+}
+
+// Hilfsfunktion: Prüft ob ein Spiel zu einer Material-Kategorie gehört
+export function gameMatchesMaterialCategory(game: Game, category: MaterialCategory): boolean {
+  return getGameMaterialCategories(game).includes(category);
+}

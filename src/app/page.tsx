@@ -8,10 +8,13 @@ import {
   Location,
   Duration,
   Age,
+  MaterialCategory,
   activityLabels,
   locationLabels,
   durationLabels,
   ageLabels,
+  materialCategoryLabels,
+  gameMatchesMaterialCategory,
   Game,
 } from "@/data/games";
 import FilterButton from "@/components/FilterButton";
@@ -25,6 +28,7 @@ export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [selectedDuration, setSelectedDuration] = useState<Duration | null>(null);
   const [selectedAge, setSelectedAge] = useState<Age | null>(null);
+  const [selectedMaterial, setSelectedMaterial] = useState<MaterialCategory | null>(null);
   const [groupSize, setGroupSize] = useState<number>(15);
 
   // Game state
@@ -38,10 +42,11 @@ export default function Home() {
       if (selectedLocation && game.location !== selectedLocation) return false;
       if (selectedDuration && game.duration !== selectedDuration) return false;
       if (selectedAge && !game.age.includes(selectedAge)) return false;
+      if (selectedMaterial && !gameMatchesMaterialCategory(game, selectedMaterial)) return false;
       if (groupSize < game.minGroupSize || groupSize > game.maxGroupSize) return false;
       return true;
     });
-  }, [selectedActivity, selectedLocation, selectedDuration, selectedAge, groupSize]);
+  }, [selectedActivity, selectedLocation, selectedDuration, selectedAge, selectedMaterial, groupSize]);
 
   // Get available games (not yet shown)
   const availableGames = useMemo(() => {
@@ -75,6 +80,7 @@ export default function Home() {
     setSelectedLocation(null);
     setSelectedDuration(null);
     setSelectedAge(null);
+    setSelectedMaterial(null);
     setGroupSize(15);
     setCurrentGame(null);
     setUsedGameIds(new Set());
@@ -162,6 +168,21 @@ export default function Home() {
             ))}
           </FilterSection>
 
+          {/* Material Filter */}
+          <FilterSection title="Material" emoji="🧰">
+            <div className="flex flex-wrap gap-2">
+              {(Object.keys(materialCategoryLabels) as MaterialCategory[]).map((material) => (
+                <FilterButton
+                  key={material}
+                  label={materialCategoryLabels[material].label}
+                  emoji={materialCategoryLabels[material].emoji}
+                  isActive={selectedMaterial === material}
+                  onClick={() => toggleFilter(selectedMaterial, material, setSelectedMaterial)}
+                />
+              ))}
+            </div>
+          </FilterSection>
+
           {/* Group Size Slider */}
           <FilterSection title="Gruppengröße" emoji="👥">
             <div className="w-full max-w-md">
@@ -219,11 +240,11 @@ export default function Home() {
         )}
 
         {/* SEO Text Section */}
-        <section className="mt-16 bg-white/60 backdrop-blur-sm rounded-2xl p-6 md:p-8">
+        <section className="mt-16 bg-white/60 backdrop-blur-sm rounded-2xl p-6 md:p-8 text-center">
           <h2 className="text-xl font-bold text-gray-700 mb-4">
             Spielideen für Kindergarten und Kita
           </h2>
-          <div className="text-gray-600 text-sm leading-relaxed space-y-3">
+          <div className="text-gray-600 text-sm leading-relaxed space-y-3 max-w-2xl mx-auto">
             <p>
               Willkommen beim Spielgenerator – deiner kostenlosen Inspirationsquelle
               für den Kita-Alltag. Ob Bewegungsspiele für draußen, ruhige Aktivitäten
